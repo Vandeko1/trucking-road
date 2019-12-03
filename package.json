@@ -1,0 +1,37 @@
+{
+  "nativescript": {
+    "id": "org.nativescript.VXroad",
+    "tns-android": {
+      "version": "6.0.2"
+    },
+    "tns-ios": {
+      "version": "6.0.2"
+    }
+  },
+  "description": "NativeScript Application",
+  "license": "SEE LICENSE IN <your-license-filename>",
+  "repository": "<fill-your-repository-here>",
+  "dependencies": {
+    "nativescript-geolocation": "^5.1.0",
+    "nativescript-gif": "^4.0.2",
+    "nativescript-mapbox": "^4.4.1",
+    "nativescript-theme-core": "~1.0.6",
+    "nativescript-ui-sidedrawer": "~7.0.0",
+    "nativescript-uuid": "0.0.1",
+    "nativescript-vue": "~2.4.0",
+    "nativescript-vue-global-drawer": "^1.2.0",
+    "rxjs": "^6.4.0",
+    "tns-core-modules": "~6.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "~7.1.0",
+    "@babel/preset-env": "~7.1.0",
+    "babel-loader": "~8.0.0",
+    "nativescript-dev-webpack": "~1.1.0",
+    "nativescript-vue-template-compiler": "~2.4.0",
+    "node-sass": "^4.7.1",
+    "vue-loader": "~15.4.0"
+  },
+  "gitHead": "42f2a6a9c94eaf9c68d2a41e0daaa1a2544bc28f",
+  "readme": "NativeScript Application"
+}
