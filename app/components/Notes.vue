@@ -83,7 +83,7 @@
                             this.origin.uuid = platformModule.device.uuid;
 /*************************************************************************************************************************/
                             httpModule.request({
-                                url: "http://192.168.1.1:555/services/hs/geomessage",
+                                url: "",
                                 method: "POST",
                                 headers: { 
                                     "Content-Type": "application/json", 

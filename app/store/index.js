@@ -11,7 +11,7 @@ export default new Vuex.Store({
     actions: {
         addNote: async({ commit }, note) => {
             await httpModule.request({
-                url: "http://192.168.1.1:555/services/hs/empty",
+                url: "",
                 method: "POST",
                 headers: { 
                     "Content-Type": "application/json", 

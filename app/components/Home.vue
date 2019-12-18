@@ -73,11 +73,11 @@
                         this.origin.uuid = platformModule.device.uuid;
 /**********************************HTTP****************************************************/                        
                         httpModule.request({
-                            url: "http://192.168.1.1:555/services/hs/geo",
+                            url: "",
                             method: "POST",
                             headers: { 
                                 "Content-Type": "application/json", 
-                                "Authorization": "Basic SW50ZXJuZXQ6dm9ydGV4"
+                                "Authorization": ""
                             },
                             content: JSON.stringify({
                                 "latitude": this.origin.latitude,
