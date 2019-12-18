@@ -18,18 +18,15 @@
             </ActionItem>
             <Label class="action-bar-title" text="Settings"></Label>
         </ActionBar>
-
         <GridLayout class="page-content">
             <Label class="page-icon fa" text.decode="&#xf013;"></Label>
             <Label class="page-placeholder" :text="message"></Label>
         </GridLayout>
     </Page>
 </template>
-
 <script>
     import * as utils from "~/shared/utils";
     import SelectedPageService from "../shared/selected-page-service";
-
     export default {
         mounted() {
             SelectedPageService.getInstance().updateSelectedPage("Settings");

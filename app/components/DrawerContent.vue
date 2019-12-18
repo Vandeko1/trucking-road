@@ -4,8 +4,7 @@
                 <Label class="sidedrawer-header-image fa" text.decode="&#xf2bd;"></Label>
                 <Label class="sidedrawer-header-brand" text="User Name"></Label>
                 <Label class="footnote" text="username@mail.com"></Label>
-            </StackLayout>
-        
+            </StackLayout>        
             <ScrollView row="1" class="sidedrawer-content">
                 <StackLayout>
                     <GridLayout columns="auto, *" :class="'sidedrawer-list-item' + (selectedPage === 'Home' ? ' selected': '')" @tap="onNavigationItemTap(Home)">
@@ -27,27 +26,32 @@
                         <Label col="0" text.decode="&#xf044;" class="fa"></Label>
                         <Label col="1" text="Нотатка" class="p-r-10"></Label>
                     </GridLayout>
-        
+
+                    <GridLayout columns="auto, *" :class="'sidedrawer-list-item' + (selectedPage === 'Login' ? ' selected': '')" @tap="onNavigationItemTap(Login)">
+                        <Label col="0" text.decode="&#xf007;" class="fa"></Label>
+                        <Label col="1" text="Логін" class="p-r-10"></Label>
+                    </GridLayout>
+                            
                     <StackLayout class="hr-light"></StackLayout>
 
                     <GridLayout columns="auto, *" :class="'sidedrawer-list-item' + (selectedPage === 'Settings' ? ' selected': '')" @tap="onNavigationItemTap(Settings)">
                         <Label col="0" text.decode="&#xf013;" class="fa"></Label>
                         <Label col="1" text="Налаштування" class="p-r-10"></Label>
                     </GridLayout>
+
                 </StackLayout>
             </ScrollView>
         </GridLayout>
 </template>
-
 <script>
     import Home from "./Home";
     import Maps from "./Maps";
     import Notes from "./Notes";
     import Address from "./Address";
     import Settings from "./Settings";
+    import Login from "./Login";
     import * as utils from "~/shared/utils";
-    import SelectedPageService from "~/shared/selected-page-service";    
-    
+    import SelectedPageService from "~/shared/selected-page-service";
     export default {
         mounted() {
             SelectedPageService.getInstance().selectedPage$
@@ -60,6 +64,7 @@
                 Notes: Notes,
                 Address: Address,
                 Settings: Settings,
+                Login: Login,
                 selectedPage: ""
             };
         },
@@ -68,7 +73,8 @@
             Maps,
             Notes,
             Address,
-            Settings
+            Settings,
+            Login
         },
         methods: {
             onNavigationItemTap(component) {
@@ -80,11 +86,9 @@
         }
     };
 </script>
-
 <style scoped lang="scss">
     // Custom common variables
     @import '../app-variables';
-
     // Drawer navigation custom styles
     $sidedrawer-header-image-size: 60;
     $sidedrawer-header-image-offset-top: 20;
@@ -95,7 +99,6 @@
     .sidedrawer {
         &.sidedrawer-left {
             background-color: $ab-background;
-
             .sidedrawer-header-image {
                 color: $background-dark;
                 height: $sidedrawer-header-image-size;
@@ -105,12 +108,10 @@
                 margin-bottom: $sidedrawer-header-image-offset-bottom;
                 margin-top: $sidedrawer-header-image-offset-top;
             }
-
             .footnote {
                 color: rgba($ab-color, 0.5);
             }
         }
-
         .sidedrawer-header {
             background-color: $ab-background;
 
@@ -118,27 +119,21 @@
                 color: $ab-color;
             }
         }
-
         .sidedrawer-content {
             background-color: $side-drawer-background;
         }
-
         .sidedrawer-list-item {
             padding-left: $sidedrawer-list-item-offset-left;
-
             Label {
                 vertical-align: center;
                 color: $blue-dark;
             }
-
             .fa {
                 width: $sidedrawer-list-icon-size;
                 margin-right: $sidedrawer-list-icon-offset;
             }
-
             &.selected {
                 background-color: $item-active-background;
-
                 Label {
                     color: $item-active-color;
                 }

@@ -1,22 +1,21 @@
 import Vue from "nativescript-vue";
 import App from "./components/App";
-import Home from "./components/Home";
+import Login from "./components/Login";
+import Vuex from 'vuex';
+import store from './store';
 import DrawerContent from "./components/DrawerContent";
 import RadSideDrawer from "nativescript-ui-sidedrawer/vue";
-import { Gif } from "nativescript-gif";
-Vue.registerElement("Mapbox", () => require("nativescript-mapbox").MapboxView);
-
 Vue.use(RadSideDrawer);
-
+Vue.use(Vuex);
 Vue.config.silent = (TNS_ENV === 'production');
-
 new Vue({
+      store,
     render (h) {
         return h(
           App,
           [
             h(DrawerContent, { slot: 'drawerContent' }),
-            h(Home, { slot: 'mainContent' })
+            h(Login, { slot: 'mainContent' })
           ]
         )
       }
