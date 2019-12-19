@@ -18,7 +18,7 @@
             <Label v-if="origin.location" :text="origin.time" textWrap="true" row="5" col="0"/>
             <Label v-if="origin.location" :text="origin.uuid" textWrap="true" row="6" col="0"/>
             <Label v-if="origin.location" :text="origin.noteText" textWrap="true" row="7" col="0"/>
-            <TextField :text="notes" row="8" col="0" />
+            <TextField :text="hash" row="8" col="0" />
             <TextView text="Multi\nLine\nText" row="9" col="0" />
             <button class="btn btn-primary" @tap="showLocation" row="10" col="0" >Відправити</button>
         </GridLayout>
@@ -28,27 +28,23 @@
     import * as utils from "~/shared/utils";
     import SelectedPageService from "../shared/selected-page-service";
     import * as Geolocation from "nativescript-geolocation";
-    const platformModule = require("tns-core-modules/platform");
     const httpModule = require("tns-core-modules/http");
     export default {
         data() {
             return {
                 origin: {
                     locationFailure:false,
-                    location: null,
-                    time: null,
-                    uuid: null,  
+                    location: null, 
                     noteText: ''
                 }
             }  
         },
         mounted() {
             SelectedPageService.getInstance().updateSelectedPage("Notes");
-            console.log(this.$store.getters.notes+'===ХЕШ із VUEX===');
         },
         computed: {
-            notes() {
-                return this.$store.getters.notes;
+            hash() {
+                return this.$store.getters.hash;
             }
         },
         methods: {
@@ -56,48 +52,33 @@
                 utils.showDrawer();
             },
             showLocation() {
-                
-                
                 Geolocation.enableLocationRequest(true)
                 .then(() => {
-                    
-                    
                     Geolocation.isEnabled().then(isLocationEnabled => {
-                        
-                        
                         
                         if(!isLocationEnabled) {
                             this.origin.locationFailure = true;
                             return;
                         }
-                        
-                        
                         Geolocation.getCurrentLocation({})
                         .then(result => {
-                            
-                            
-                            console.log(result+' ==РЕЗУЛЬТАТ==');
                             this.origin.location = result;
-                            let date = new Date((new Date()).valueOf() + 10796400);
-                            this.origin.time = date.toISOString();
-                            this.origin.uuid = platformModule.device.uuid;
 /*************************************************************************************************************************/
                             httpModule.request({
-                                url: "",
+                                url: "http://192.168.1.1:555/services/hs/geomessage",
                                 method: "POST",
                                 headers: { 
                                     "Content-Type": "application/json", 
-                                    "Authorization": "Basic " + notes
+                                    "Authorization": "Basic " + this.hash
                                 },
                                 content: JSON.stringify({
                                     "latitude": this.origin.location.latitude,
                                     "longitude": this.origin.location.longitude,
-                                    "time": this.origin.time,
                                     "noteText": this.origin.noteText
                                 })
                             }).then((response) => {
-//                                const result = response.content.toJSON();
-                                console.log('==Надіслано!==');
+                                /*const result = response.content.toJSON();*/
+                                console.log('==Надіслано==');
                             }, (e) => {
                                 console.error(error);
                             }); 

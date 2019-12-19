@@ -1,43 +1,23 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import axios from 'axios';
-const httpModule = require("tns-core-modules/http");
 Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
-        notes: ''
-    },
-    
+        hash: ''
+    },    
     actions: {
-        addNote: async({ commit }, note) => {
-            await httpModule.request({
-                url: "",
-                method: "POST",
-                headers: { 
-                    "Content-Type": "application/json", 
-                    "Authorization": "Basic " + note
-                },
-                content: JSON.stringify({
-                })
-            }).then((response) => {
-                  commit('ADD_NOTE', note);
-            }, (e) => {
-                commit('ADD_NOTE', 'помилка');
-            });
-        }
-        
-    },
-    
+        addHash: async({ commit }, hash) => {
+            commit('ADD_HASH', hash);            
+        }        
+    },    
     mutations: {
-        ADD_NOTE(state, note) {
-            state.notes = note;
+        ADD_HASH(state, hash) {
+            state.hash = hash;
         }
-    },
-    
+    },    
     getters: {
-        notes(state) {
-            return state.notes;
+        hash(state) {
+            return state.hash;
         }
-    }
-    
+    }    
 });

@@ -40,8 +40,8 @@
             geolocation.enableLocationRequest();
         },
         computed: {
-            message() {
-                return "<!-- Page content goes here -->";
+            hash() {
+                return this.$store.getters.hash;
             }
         },
         data() {
@@ -73,18 +73,18 @@
                         this.origin.uuid = platformModule.device.uuid;
 /**********************************HTTP****************************************************/                        
                         httpModule.request({
-                            url: "",
+                            url: "http://192.168.1.1:555/services/hs/geo",
                             method: "POST",
                             headers: { 
                                 "Content-Type": "application/json", 
-                                "Authorization": ""
+                                "Authorization": "Basic " + this.hash
                             },
-                            content: JSON.stringify({
+                            content: JSON.stringify([{
                                 "latitude": this.origin.latitude,
                                 "longitude": this.origin.longitude,
                                 "time": this.origin.time,
                                 "uuid": this.origin.uuid
-                            })
+                            }])
                         }).then((response) => {
                             const result = response.content.toJSON();
                             console.log('Sended!');

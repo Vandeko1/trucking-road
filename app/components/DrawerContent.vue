@@ -26,11 +26,6 @@
                         <Label col="0" text.decode="&#xf044;" class="fa"></Label>
                         <Label col="1" text="Нотатка" class="p-r-10"></Label>
                     </GridLayout>
-
-                    <GridLayout columns="auto, *" :class="'sidedrawer-list-item' + (selectedPage === 'Login' ? ' selected': '')" @tap="onNavigationItemTap(Login)">
-                        <Label col="0" text.decode="&#xf007;" class="fa"></Label>
-                        <Label col="1" text="Логін" class="p-r-10"></Label>
-                    </GridLayout>
                             
                     <StackLayout class="hr-light"></StackLayout>
 
@@ -49,7 +44,6 @@
     import Notes from "./Notes";
     import Address from "./Address";
     import Settings from "./Settings";
-    import Login from "./Login";
     import * as utils from "~/shared/utils";
     import SelectedPageService from "~/shared/selected-page-service";
     export default {
@@ -64,7 +58,6 @@
                 Notes: Notes,
                 Address: Address,
                 Settings: Settings,
-                Login: Login,
                 selectedPage: ""
             };
         },
@@ -73,8 +66,7 @@
             Maps,
             Notes,
             Address,
-            Settings,
-            Login
+            Settings
         },
         methods: {
             onNavigationItemTap(component) {
