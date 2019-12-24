@@ -37,6 +37,6 @@
 		</activity>
 		<activity android:name="com.tns.ErrorReportActivity"/>
 		
-        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyAoRmmc6-gBGEct2NK_g9zApoV-v6GbiPg" />
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="" />
 	</application>
 </manifest>
