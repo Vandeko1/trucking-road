@@ -22,9 +22,9 @@
                         <Label col="1" text="Адресати" class="p-r-10"></Label>
                     </GridLayout>
 
-                    <GridLayout columns="auto, *" :class="'sidedrawer-list-item' + (selectedPage === 'Notes' ? ' selected': '')" @tap="onNavigationItemTap(Notes)">
-                        <Label col="0" text.decode="&#xf044;" class="fa"></Label>
-                        <Label col="1" text="Нотатка" class="p-r-10"></Label>
+                    <GridLayout columns="auto, *" :class="'sidedrawer-list-item' + (selectedPage === 'Calendar' ? ' selected': '')" @tap="onNavigationItemTap(Calendar)">
+                        <Label col="0" text.decode="&#xf073;" class="fa"></Label>
+                        <Label col="1" text="Календар" class="p-r-10"></Label>
                     </GridLayout>
                             
                     <StackLayout class="hr-light"></StackLayout>
@@ -41,7 +41,7 @@
 <script>
     import Home from "./Home";
     import Maps from "./Maps";
-    import Notes from "./Notes";
+    import Calendar from "./Calendar";
     import Address from "./Address";
     import Settings from "./Settings";
     import * as utils from "~/shared/utils";
@@ -55,7 +55,7 @@
             return {
                 Home: Home,
                 Maps: Maps,
-                Notes: Notes,
+                Calendar: Calendar,
                 Address: Address,
                 Settings: Settings,
                 selectedPage: ""
@@ -64,7 +64,7 @@
         components: {
             Home,
             Maps,
-            Notes,
+            Calendar,
             Address,
             Settings
         },

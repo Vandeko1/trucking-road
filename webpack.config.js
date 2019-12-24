@@ -245,6 +245,7 @@ module.exports = env => {
             new CleanWebpackPlugin(itemsToClean, { verbose: !!verbose }),
             // Copy assets to out dir. Add your own globs as needed.
             new CopyWebpackPlugin([
+                { from: { glob: "gifs/**" } },
                 { from: { glob: "fonts/**" } },
                 { from: { glob: "**/*.+(jpg|png)" } },
                 { from: { glob: "assets/**/*" } },

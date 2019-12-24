@@ -41,13 +41,13 @@ export default {
             let formData = base64.encode(bytes);
             await httpModule.request({
                 url: "",
-                method: "POST",
+                method: "GET",
                 headers: { 
                     "Content-Type": "application/json",
                     "Authorization": "Basic " + formData
-                }, content: JSON.stringify({})
+                }
             }).then((response) => {
-                if (response.statusCode < 406) {
+                if (response.statusCode == 200) {
                     this.$store.dispatch('addHash', formData);
                     this.$navigateTo(Home);
                 } else {
@@ -60,7 +60,13 @@ export default {
                     });
                 }
             }, (e) => {
-                console.log('Немає відповіді')
+                    dialogs.alert({
+                        title: "Немає відповіді",
+                        message: "Перевірте з'єднання",
+                        okButtonText: "ok"
+                    }).then(function () {
+                        console.log("Немає відповіді");
+                    });
             });
         },
         focusPassword() {

@@ -9,29 +9,21 @@
             </ActionItem>
             <Label class="action-bar-title" text="Карта"></Label>
         </ActionBar>
-
-        <GridLayout class="page-content">
-            <Label class="page-icon fa" text.decode="&#xf1ea;"></Label>
-            <Label class="page-placeholder" :text="message"></Label>
-        </GridLayout>
-
         <GridLayout>
-<!--
                 <Mapbox
                     accessToken="pk.eyJ1IjoidmFuZGVrbyIsImEiOiJjazM0ZWE5MDUwMWFlM2htdmNwMzdld3Y4In0.bWWOgAvuh_CGufV6JE19Hw"
                     mapStyle="traffic_day"
-                    latitude="37.7397"
-                    longitude="-121.4252"
+                    latitude="48.880310"
+                    longitude="24.629396"
                     hideCompass="true"
                     zoomLevel="12"
-                    showUserLocation="false"
+                    showUserLocation="true"
                     disableZoom="false"
                     disableRotation="false"
                     disableScroll="false"
                     disableTilt="false"
                     @mapReady="onMapReady($event)">
                 </Mapbox>
--->
         </GridLayout>
     </Page>
 </template>
@@ -39,10 +31,12 @@
 <script>
     import * as utils from "~/shared/utils";
     import SelectedPageService from "../shared/selected-page-service";
-//  import { MapboxMarker } from "nativescript-mapbox";   
-//  Vue.registerElement("Mapbox", () => require("nativescript-mapbox").MapboxView);
+    import { MapboxMarker } from "nativescript-mapbox";      
 
     export default {
+        data() {
+            return { };
+        },        
         mounted() {
             SelectedPageService.getInstance().updateSelectedPage("Maps");
         },
@@ -54,21 +48,20 @@
         methods: {
             onDrawerButtonTap() {
                 utils.showDrawer();
-            }
-//            ,
-//            onMapReady(args) {
-//                args.map.addMarkers([
-//                    {
-//                        lat: 37.7397,
-//                        lng: -121.4252,
-//                        title: "Tracy, CA",
-//                        subtitle: "Home of The Polyglot Developer!",
-//                        onCalloutTap: () => {
-//                            utils.openUrl("https://www.thepolyglotdeveloper.com");
-//                        }
-//                    }
-//                ]);
-//            }            
+            },
+            onMapReady(args) {
+                args.map.addMarkers([
+                    {
+                        lat: 37.7397,
+                        lng: -121.4252,
+                        title: "Tracy, CA",
+                        subtitle: "Home of The Polyglot Developer!",
+                        onCalloutTap: () => {
+                            utils.openUrl("https://www.thepolyglotdeveloper.com");
+                        }
+                    }
+                ]);
+            }           
         }
     };
 </script>

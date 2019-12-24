@@ -9,22 +9,21 @@
             </ActionItem>
             <Label class="action-bar-title" text="Статус"></Label>
         </ActionBar>
-        <GridLayout columns="*, *" rows="*, 40, 40, 40, 60" width="100%" height="100%" class="vals">
-            <Image v-show="!status" class="truck" src="~/components/img/stop.jpg" colSpan="2" width="100%" height="100%" row="0" col="0" />
-            <StackLayout row="1" col="0" colSpan="2" class="hr-dark m-20"></StackLayout>
-            <Label :text="'Latitude: ' + origin.latitude" class="text-danger" row="2" col="0" />
-            <Label :text="'Longitude: ' + origin.longitude" class="text-danger" row="2" col="1" />
-            <Label :text="'time: ' + origin.time" class="text-danger" row="3" col="0" />
-            <Label :text="'uuid: ' + origin.uuid" class="text-danger" row="3" col="1" />
-            <Button row="4" col="0" class="btn btn-primary" @tap="watchLocation">В дорозі</Button>
-            <button row="4" col="1" class="btn btn-primary" @tap="clearWatch">Вільний</button>
-        </GridLayout>        
+        <GridLayout columns="*, *" rows="*, 60" width="100%" height="100%" class="vals">
+            <Image v-show="!status"  row="0" col="0" colSpan="2" verticalAlignment="top" src="~/components/img/stop.jpg" width="100%"/>
+            <Gif v-show="status" row="0" col="0" colSpan="2"  verticalAlignment="top" src="~/components/img/start.jpg" width="100%"/>
+            <Button v-show="!status" row="1" col="0" class="btn btn-primary" @tap="watchLocation">В дорозі</Button>
+            <button v-show="status" row="1" col="0" class="btn btn-primary" @tap="clearWatch">Вільний</button>
+            <button row="3" col="1" class="btn btn-primary" @tap="showForm">Відмітка</button>
+<!--            <button row="3" col="0" class="btn btn-primary"  @click.prevent="$emit('click')">В дорозі2</button>-->
+        </GridLayout>
     </Page>
 </template>
 <script>
     import * as utils from "~/shared/utils";
     import SelectedPageService from "../shared/selected-page-service";
     const geolocation = require("nativescript-geolocation");
+    const dialogs = require("tns-core-modules/ui/dialogs");
     const { Accuracy } = require("tns-core-modules/ui/enums");
     const platformModule = require("tns-core-modules/platform");
     const httpModule = require("tns-core-modules/http");
@@ -32,7 +31,7 @@
     const Observable = require("tns-core-modules/data/observable").Observable;
     const Animation = require("tns-core-modules/ui/animation").Animation;
     const webViewModule = require("tns-core-modules/ui/web-view");
-    let animationSet = Animation;
+    const animationSet = Animation;
     animationSet.cancel = function(){return null;}
     export default {
         mounted() {
@@ -46,12 +45,12 @@
         },
         data() {
             return {
-                origin: {
-                    latitude: null,
-                    longitude: null,
-                    time: null,
-                    uuid: null
-                },
+                latitude: null,
+                longitude: null,
+                time: null,
+                uuid: null,
+                locationFailure:false,
+                noteText: '',
                 status: false
             };
         },        
@@ -59,40 +58,143 @@
             onDrawerButtonTap() {
                 utils.showDrawer();
             },
+            showForm() {
+                dialogs.prompt({
+                    title: "Відмітка",
+                    message: "Введіть Ім'я контрагента",
+                    okButtonText: "Надіслати",
+                    cancelButtonText: "Відмінити",
+                    defaultText: "",
+                    inputType: dialogs.inputType.text
+                }).then(result => {
+                    this.noteText = result.text;
+                    this.sendMessage();
+                });
+            },
+/*************************************************************************************************************************/
+            sendMessage(){
+                console.log("inside sendMessage");
+                geolocation.enableLocationRequest(true).then(() => {console.log("inside Geolocation");
+                    geolocation.isEnabled().then(isLocationEnabled => {
+                        if(!isLocationEnabled) {
+                            this.locationFailure = true;
+                            return;
+                        }
+                        geolocation.getCurrentLocation({}).then(result => {console.log("inside insideCurrentGeolocation");
+                            this.latitude = result.latitude;
+                            this.longitude = result.longitude;
+                            httpModule.request({
+                                url: "",
+                                method: "POST",
+                                headers: { 
+                                    "Content-Type": "application/json", 
+                                    "Authorization": "Basic " + this.hash
+                                },
+                                content: JSON.stringify({
+                                    "latitude": this.latitude,
+                                    "longitude": this.longitude,
+                                    "noteText": this.noteText
+                                })
+                            }).then((response) => {
+                                if (response.statusCode == 200) {
+                                    dialogs.alert({
+                                        title: "Надіслано",
+                                        message: "Повідомлення успішно надіслано",
+                                        okButtonText: "ok"
+                                    }).then(function () {
+                                        console.log("Надіслано");
+                                    });
+                                } else {
+                                    dialogs.alert({
+                                        title: "Помилка надсилання",
+                                        message: "Повідомленя не надіслано. Код помилки - " + response.statusCode,
+                                        okButtonText: "ok"
+                                    }).then(function () {
+                                        console.log("Помилка надсилання");
+                                    });
+                                }
+                            }, (e) => {
+                                    dialogs.alert({
+                                        title: "Помилка надсилання",
+                                        message: "Повідомленя не надіслано. Сервер не відповідає. Перевірте з'єднання",
+                                        okButtonText: "ok"
+                                    }).then(function () {
+                                        console.log("Помилка надсилання");
+                                    });
+                            });
+                        })
+                        .catch(e => {
+                            dialogs.alert({
+                                title: "Помилка GPS",
+                                message: "GPS дані не вдалось отримати. Переконайтесь що GPS ввімкнено і спробуйте ще раз",
+                                okButtonText: "ok"
+                            }).then(function () {
+                                console.log("Помилка GPS");
+                            });
+                        });
+                    });
+                });
+            },
+/*************************************************************************************************************************/
             watchLocation: function() {
                 this.status = true;
                 this.watch = geolocation.watchLocation(
-                    res => {
-/************************************GET DATA***********************************************/
-                        let lat = res.latitude;
-                        let lng = res.longitude;
-                        this.origin.latitude = lat;
-                        this.origin.longitude = lng;
+                    result => {
+                        this.latitude = result.latitude;
+                        this.longitude = result.longitude;
                         let date = new Date((new Date()).valueOf() + 10796400);
-                        this.origin.time = date.toISOString();
-                        this.origin.uuid = platformModule.device.uuid;
-/**********************************HTTP****************************************************/                        
+                        this.time = date.toISOString();
+                        this.uuid = platformModule.device.uuid;                      
                         httpModule.request({
-                            url: "http://192.168.1.1:555/services/hs/geo",
+                            url: "",
                             method: "POST",
                             headers: { 
                                 "Content-Type": "application/json", 
                                 "Authorization": "Basic " + this.hash
                             },
                             content: JSON.stringify([{
-                                "latitude": this.origin.latitude,
-                                "longitude": this.origin.longitude,
-                                "time": this.origin.time,
-                                "uuid": this.origin.uuid
+                                "latitude": this.latitude,
+                                "longitude": this.longitude,
+                                "time": this.time,
+                                "uuid": this.uuid
                             }])
                         }).then((response) => {
-                            const result = response.content.toJSON();
-                            console.log('Sended!');
+                            if (response.statusCode == 200) {
+                                dialogs.alert({
+                                    title: "Надіслано",
+                                    message: "Геодані успішно надіслано",
+                                    okButtonText: "ok"
+                                }).then(function () {
+                                    console.log("Надіслано");
+                                });
+                            } else {
+                                dialogs.alert({
+                                    title: "Невідома помилка",
+                                    message: "Невідома помилка. Статус-код - "+response.statusCode,
+                                    okButtonText: "ok"
+                                }).then(function () {
+                                    console.log("Помилка доступу");
+                                });
+                            }                            
                         }, (e) => {
-                            console.error(error);
+                            dialogs.alert({
+                                title: "Помилка з'єднання",
+                                message: "Сервер не відповідає. Перевірте з'єднання",
+                                okButtonText: "ok"
+                            }).then(function () {
+                                console.log("Помилка з'єднання");
+                            });
                         });
                     },
-                    error => console.log(error), 
+                    error => {
+                        dialogs.alert({
+                            title: "Помилка GPS",
+                            message: "GPS дані не вдалось отримати. Переконайтесь що GPS ввімкнено і спробуйте ще раз",
+                            okButtonText: "ok"
+                        }).then(function () {
+                            console.log("Помилка GPS");
+                        });
+                    }, 
                     {
                         desiredAccuracy: Accuracy.high,
                         updateDistance: 1,
@@ -124,8 +226,5 @@
     }
     Label {
         text-align: center;
-    }
-    .truck {
-         margin-top: -150px;   
     }    
 </style>
