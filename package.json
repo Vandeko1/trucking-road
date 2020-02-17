@@ -1,18 +1,20 @@
 {
   "nativescript": {
     "id": "org.nativescript.VXroad",
-    "tns-android": {
+    "tns-ios": {
       "version": "6.0.2"
     },
-    "tns-ios": {
+    "tns-android": {
       "version": "6.0.2"
     }
   },
   "description": "NativeScript Application",
   "license": "SEE LICENSE IN <your-license-filename>",
-  "repository": "<fill-your-repository-here>",
+  "repository": "https://github.com/Vandeko1/trucking-road",
   "dependencies": {
     "base-64": "^0.1.0",
+    "nativescript-background-http": "^4.2.1",
+    "nativescript-camera": "^4.5.0",
     "nativescript-geolocation": "^5.1.0",
     "nativescript-gif": "^4.0.2",
     "nativescript-mapbox": "^4.4.1",
@@ -20,7 +22,6 @@
     "nativescript-ui-calendar": "^6.0.0",
     "nativescript-ui-sidedrawer": "^8.0.0",
     "nativescript-vue": "~2.4.0",
-    "rxjs": "^6.4.0",
     "tns-core-modules": "~6.0.0",
     "utf8": "^3.0.0",
     "vuex": "^3.1.2"

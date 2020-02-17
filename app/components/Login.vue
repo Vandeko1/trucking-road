@@ -40,7 +40,7 @@ export default {
             let bytes = utf8.encode(str);
             let formData = base64.encode(bytes);
             await httpModule.request({
-                url: "",
+                url: "https://setyourserver.com:777/api/empty",
                 method: "GET",
                 headers: { 
                     "Content-Type": "application/json",
