@@ -17,6 +17,9 @@ android {
   aaptOptions {
     additionalParameters "--no-version-vectors"
   }
+  dexOptions {
+    javaMaxHeapSize "4g"
+  }
 }
 
 def settingsGradlePath

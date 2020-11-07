@@ -12,14 +12,14 @@
                         <Label col="1" text="Статус" class="p-r-10"></Label>
                     </GridLayout>
 
+                    <GridLayout columns="auto, *" :class="'sidedrawer-list-item' + (selectedPage === 'EventsLog' ? ' selected': '')" @tap="onNavigationItemTap(EventsLog)">
+                        <Label col="0" text.decode="&#xf02d;" class="fa"></Label>
+                        <Label col="1" text="Журнал" class="p-r-10"></Label>
+                    </GridLayout>
+
                     <GridLayout columns="auto, *" :class="'sidedrawer-list-item' + (selectedPage === 'Maps' ? ' selected': '')" @tap="onNavigationItemTap(Maps)">
                         <Label col="0" text.decode="&#xf279;" class="fa"></Label>
                         <Label col="1" text="Карта" class="p-r-10"></Label>
-                    </GridLayout>
-
-                    <GridLayout columns="auto, *" :class="'sidedrawer-list-item' + (selectedPage === 'Address' ? ' selected': '')" @tap="onNavigationItemTap(Address)">
-                        <Label col="0" text.decode="&#xf2bb;" class="fa"></Label>
-                        <Label col="1" text="Адресати" class="p-r-10"></Label>
                     </GridLayout>
 
                     <GridLayout columns="auto, *" :class="'sidedrawer-list-item' + (selectedPage === 'Calendar' ? ' selected': '')" @tap="onNavigationItemTap(Calendar)">
@@ -33,6 +33,11 @@
                         <Label col="0" text.decode="&#xf013;" class="fa"></Label>
                         <Label col="1" text="Налаштування" class="p-r-10"></Label>
                     </GridLayout>
+                    
+                    <GridLayout columns="auto, *" :class="'sidedrawer-list-item' + (selectedPage === 'login' ? ' selected': '')" @tap="onNavigationItemTap(Login)">
+                        <Label col="0" text.decode="&#xf08b;" class="fa"></Label>
+                        <Label col="1" text="Вихід" class="p-r-10"></Label>
+                    </GridLayout>
 
                 </StackLayout>
             </ScrollView>
@@ -42,8 +47,9 @@
     import Home from "./Home";
     import Maps from "./Maps";
     import Calendar from "./Calendar";
-    import Address from "./Address";
+    import EventsLog from "./EventsLog";
     import Settings from "./Settings";
+    import Login from "./Login";
     import * as utils from "~/shared/utils";
     import SelectedPageService from "~/shared/selected-page-service";
     export default {
@@ -56,8 +62,9 @@
                 Home: Home,
                 Maps: Maps,
                 Calendar: Calendar,
-                Address: Address,
+                EventsLog: EventsLog,
                 Settings: Settings,
+                Login: Login,
                 selectedPage: ""
             };
         },
@@ -65,8 +72,9 @@
             Home,
             Maps,
             Calendar,
-            Address,
-            Settings
+            EventsLog,
+            Settings,
+            Login
         },
         methods: {
             onNavigationItemTap(component) {
@@ -78,7 +86,7 @@
         }
     };
 </script>
-<style scoped lang="scss">
+<style lang="scss">
     // Custom common variables
     @import '../app-variables';
     // Drawer navigation custom styles

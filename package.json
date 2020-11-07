@@ -8,20 +8,23 @@
       "version": "6.0.2"
     }
   },
-  "description": "NativeScript Application",
+  "description": "GPS trucking of cars",
   "license": "SEE LICENSE IN <your-license-filename>",
   "repository": "https://github.com/Vandeko1/trucking-road",
   "dependencies": {
     "base-64": "^0.1.0",
     "nativescript-background-http": "^4.2.1",
     "nativescript-camera": "^4.5.0",
+    "nativescript-fancyalert": "3.0.9",
     "nativescript-geolocation": "^5.1.0",
     "nativescript-gif": "^4.0.2",
     "nativescript-mapbox": "^4.4.1",
+    "nativescript-sqlite": "2.6.3",
     "nativescript-theme-core": "~1.0.6",
-    "nativescript-ui-calendar": "^6.0.0",
+    "nativescript-ui-calendar": "5.0.0",
     "nativescript-ui-sidedrawer": "^8.0.0",
     "nativescript-vue": "~2.4.0",
+    "rxjs": "6.5.5",
     "tns-core-modules": "~6.0.0",
     "utf8": "^3.0.0",
     "vuex": "^3.1.2"
@@ -36,5 +39,6 @@
     "vue-loader": "~15.4.0"
   },
   "gitHead": "42f2a6a9c94eaf9c68d2a41e0daaa1a2544bc28f",
-  "readme": "NativeScript Application"
+  "readme": "NativeScript Application",
+  "author": "Ivan Bodnar"
 }
